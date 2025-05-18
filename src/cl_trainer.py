@@ -4,7 +4,7 @@ from transformers.trainer_seq2seq import Seq2SeqTrainer
 from transformers.trainer import *
 from transformers.trainer_callback import TrainerCallback
 import numpy as np
-
+from transformers.trainer_pt_utils import nested_truncate
 from cl_collator import SUPPORTED_DECODER_MODELS, check_model
 from cl_dataset import ANSWER_PREFIX
 
@@ -60,7 +60,20 @@ class DenserEvalCallback(TrainerCallback):
 
 class Trainer(Seq2SeqTrainer):
 
-    def __init__(self, model, args, train_dataset, cur_task_id, task_order, data_collator_replay=None, replay_dataset_dict=None, replay_label_dict=None, eval_dataset=None, tokenizer=None, data_collator=None, compute_metrics=None, callbacks=None):
+    def __init__(self, 
+                 model, 
+                 args, 
+                 train_dataset,
+                 cur_task_id, 
+                 task_order, 
+                 data_collator_replay=None, 
+                 replay_dataset_dict=None, 
+                 replay_label_dict=None, 
+                 eval_dataset=None, 
+                 tokenizer=None, 
+                 data_collator=None, 
+                 compute_metrics=None, 
+                 callbacks=None):
         super().__init__(model=model, args=args, train_dataset=train_dataset, eval_dataset=eval_dataset, tokenizer=tokenizer, data_collator=data_collator, compute_metrics=compute_metrics, callbacks=callbacks)
 
         self.data_collator_replay = data_collator_replay
@@ -88,7 +101,9 @@ class Trainer(Seq2SeqTrainer):
                         worker_init_fn=seed_worker)
             self.replay_iterator_dict = create_memory_replay_generators(task_order[cur_task_id], task_order, self.replay_dataloader_dict)
 
-    def training_step(self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]]) -> torch.Tensor:
+    def training_step(self, 
+                      model: nn.Module, 
+                      inputs: Dict[str, Union[torch.Tensor, Any]]) -> torch.Tensor:
         """
         Perform a training step on a batch of inputs.
 
@@ -111,7 +126,9 @@ class Trainer(Seq2SeqTrainer):
         inputs = self._prepare_inputs(inputs)
 
         if is_sagemaker_mp_enabled():
-            loss_mb = smp_forward_backward(model, inputs, self.args.gradient_accumulation_steps)
+            loss_mb = smp_forward_backward(model, 
+                                           inputs, 
+                                           self.args.gradient_accumulation_steps)
             return loss_mb.reduce_mean().detach().to(self.args.device)
         
         with self.compute_loss_context_manager():
@@ -439,10 +456,9 @@ class Trainer(Seq2SeqTrainer):
 
         return EvalLoopOutput(predictions=all_preds, label_ids=all_labels, metrics=metrics, num_samples=num_samples)
 
-
     def prediction_step(
         self,
-        model: nn.Module,
+        model: nn.Module, 
         inputs: Dict[str, Union[torch.Tensor, Any]],
         prediction_loss_only: bool,
         ignore_keys: Optional[List[str]] = None,

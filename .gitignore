@@ -1,0 +1,8 @@
+your_job_name_configs/
+__pycache__/
+.pt
+*.pyc
+*.pyo
+your_job_name/
+CODETASK_Benchmark/
+CodeTask/
