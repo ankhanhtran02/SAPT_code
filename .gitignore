@@ -4,5 +4,8 @@ __pycache__/
 *.pyc
 *.pyo
 your_job_name/
-CODETASK_Benchmark/
-CodeTask/
+CODETASK_Benchmark/CodeTask/
+configs/CodeTask/BFP/
+configs/CodeTask/CodeSearchNet/
+configs/CodeTask/CodeTrans/
+configs/CodeTask/CONCODE/
