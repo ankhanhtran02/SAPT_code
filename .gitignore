@@ -9,3 +9,6 @@ configs/CodeTask/BFP/
 configs/CodeTask/CodeSearchNet/
 configs/CodeTask/CodeTrans/
 configs/CodeTask/CONCODE/
+CODETASK_Benchmark/CodeTask
+CL_Benchmark/
+condaenv.rhtjqj8i.requirements.txt

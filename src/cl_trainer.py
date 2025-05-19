@@ -7,6 +7,7 @@ import numpy as np
 from transformers.trainer_pt_utils import nested_truncate
 from cl_collator import SUPPORTED_DECODER_MODELS, check_model
 from cl_dataset import ANSWER_PREFIX
+from typing import Dict, Union, Any, List, Tuple
 
 
 def skip_instructions(model, predictions_ids, tokenizer, ignore_idx=-100):
