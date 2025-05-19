@@ -26,10 +26,16 @@ HUGGINGFACE_DATASET = {'CONCODE': 'AhmedSSoliman/CodeXGLUE-CONCODE',
                     'CodeSearchNet': 'semeru/code-text-ruby',
                     'BFP': 'ayeshgk/code_x_glue_cc_code_refinement_annotated'}
 
+JSON_FN = {
+    'train': 'train',
+    'test': 'test',
+    'validation': 'dev'
+}
+
 
 def convert_to_codetask(split_name="train"):
     for task in TASK_LIST:
-        save_dir = os.path.join(FOLDER_NAME, task)
+        save_dir = os.path.join(FOLDER_NAME, 'CodeTask', task)
         os.makedirs(save_dir, exist_ok=True)
         dataset = load_dataset(HUGGINGFACE_DATASET[task], split=split_name)
         
@@ -53,7 +59,7 @@ def convert_to_codetask(split_name="train"):
                 "output": [output_text]
             })
 
-        with open(os.path.join(save_dir, f"{split_name}.json"), "w", encoding="utf-8") as f:
+        with open(os.path.join(save_dir, f"{JSON_FN[split_name]}.json"), "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=2)
 
 # 🔁 Run for all splits
