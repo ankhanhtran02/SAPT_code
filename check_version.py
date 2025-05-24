@@ -6,6 +6,7 @@ print(datasets.__version__)
 
 
 import torch
+from peft import PeftModel, PeftConfig
 print("PyTorch version:", torch.__version__)
 print("CUDA available:", torch.cuda.is_available())
 print("CUDA version used by PyTorch:", torch.version.cuda)
