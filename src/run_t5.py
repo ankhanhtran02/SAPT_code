@@ -320,6 +320,14 @@ class TrainingArguments(Seq2SeqTrainingArguments):
         default=0,
         metadata={"help": "learning rate of the attention module"}
     )
+    bf_16: Optional[bool] = field(
+        default=False,
+        metadata={"help": "Whether to use bfloat16 instead of float16."},
+    )
+    bf_16_full_eval: Optional[bool] = field(
+        default=False,
+        metadata={"help": "Whether to use bfloat16 instead of float16 for full evaluation."},
+    )
 
 def main():
     # See all possible arguments in src/transformers/training_args.py
