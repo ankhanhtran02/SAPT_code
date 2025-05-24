@@ -174,7 +174,8 @@ class UIETrainer(Seq2SeqTrainer):
             if args.fp16_full_eval:
                 model = model.to(dtype=torch.float16, device=args.device)
             elif args.bf16_full_eval:
-                model = model.to(dtype=torch.bfloat16, device=args.device)
+                pass
+                # model = model.to(dtype=torch.bfloat16, device=args.device)
 
         batch_size = dataloader.batch_size
 

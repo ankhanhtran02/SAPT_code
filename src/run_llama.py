@@ -588,7 +588,9 @@ def main():
             for idx in range(cur_task_id):
                 with open(os.path.join("logs_and_outputs/" + training_args.run_name + "/outputs/", str(idx+1)+"-"+task_order[idx], "saved_weights", "attention_weights.pkl"), 'rb') as f:
                     attn_weights = pickle.load(f)
-                replay_label_dict[task_order[idx]] = torch.cat([torch.tensor([0.] * (cur_task_id - idx)), torch.tensor(attn_weights)], dim=0).to(dtype=torch.bfloat16, device='cuda')
+                replay_label_dict[task_order[idx]] = torch.cat([torch.tensor([0.] * (cur_task_id - idx)), torch.tensor(attn_weights)], dim=0).to(
+                    # dtype=torch.bfloat16, 
+                    device='cuda')
             print(replay_label_dict)
         print('-'*50)
 
