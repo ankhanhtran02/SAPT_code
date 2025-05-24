@@ -333,6 +333,7 @@ def main():
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
     training_args._frozen = False
+    print(training_args)
 
     # Setup logging
     logging.basicConfig(
