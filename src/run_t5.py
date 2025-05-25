@@ -320,14 +320,6 @@ class TrainingArguments(Seq2SeqTrainingArguments):
         default=0,
         metadata={"help": "learning rate of the attention module"}
     )
-    bf_16: Optional[bool] = field(
-        default=False,
-        metadata={"help": "Whether to use bfloat16 instead of float16."},
-    )
-    bf_16_full_eval: Optional[bool] = field(
-        default=False,
-        metadata={"help": "Whether to use bfloat16 instead of float16 for full evaluation."},
-    )
 
 def main():
     # See all possible arguments in src/transformers/training_args.py
@@ -338,6 +330,7 @@ def main():
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # If we pass only one argument to the script and it's the path to a json file,
         # let's parse it to get our arguments.
+        print("hahaa")
         model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()

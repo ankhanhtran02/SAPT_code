@@ -13,7 +13,7 @@ python3 src/run_t5.py \
   --gradient_accumulation_steps 2 \
   --learning_rate 0.0003 \
   --num_train_epochs 1 \
-  --bf16 \
+  # --bf16 \
   --run_name "your_job_name" \
   --max_source_length 512 \
   --max_target_length 50 \
