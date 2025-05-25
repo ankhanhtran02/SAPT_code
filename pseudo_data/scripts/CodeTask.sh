@@ -17,7 +17,8 @@ lr=0.001
 topk=20
 
 
-CUDA_VISIBLE_DEVICES=0 deepspeed --master_port $port src/run_uie_lora.py \
+# CUDA_VISIBLE_DEVICES=0 deepspeed --master_port $port src/run_uie_lora.py \
+CUDA_VISIBLE_DEVICES=0 python  src/run_uie_lora.py \
    --do_train \
    --do_predict \
    --predict_with_generate \
@@ -32,7 +33,7 @@ CUDA_VISIBLE_DEVICES=0 deepspeed --master_port $port src/run_uie_lora.py \
    --gradient_accumulation_steps 1 \
    --learning_rate $lr \
    --max_steps  5000 \
-   --deepspeed configs/ds_configs/stage2.config \
+   # --deepspeed configs/ds_configs/stage2.config \
    --run_name CodeTaskCL \
    --max_source_length 5 \
    --max_target_length 512 \
