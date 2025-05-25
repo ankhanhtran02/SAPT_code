@@ -308,14 +308,15 @@ def main():
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
-    data_cache_dir = gen_cache_path(training_args.output_dir, data_args)
+    pseudo_data_dir = "/kaggle/working/SAPT_code/pseudo_data"
+    data_cache_dir = gen_cache_path(os.path.join(pseudo_data_dir, training_args.output_dir), data_args)
 
     # Get the UIE dataset
     raw_datasets = load_dataset(
         os.path.join(CURRENT_DIR, "uie_dataset_lora_ours.py"),
-        data_dir=os.path.join("../", data_args.data_dir),
-        task_config_dir=os.path.join("../", data_args.task_config_dir),
-        instruction_file=os.path.join("../", data_args.instruction_file),
+        data_dir=os.path.join(pseudo_data_dir, data_args.data_dir),
+        task_config_dir=os.path.join(pseudo_data_dir, data_args.task_config_dir),
+        instruction_file=os.path.join(pseudo_data_dir, data_args.instruction_file),
         instruction_strategy=data_args.instruction_strategy,
         cache_dir=data_cache_dir,  # for debug, change dataset size, otherwise open it
         max_num_instances_per_task=data_args.max_num_instances_per_task,
