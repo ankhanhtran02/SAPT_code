@@ -313,9 +313,9 @@ def main():
     # Get the UIE dataset
     raw_datasets = load_dataset(
         os.path.join(CURRENT_DIR, "uie_dataset_lora_ours.py"),
-        data_dir=data_args.data_dir,
-        task_config_dir=data_args.task_config_dir,
-        instruction_file=data_args.instruction_file,
+        data_dir=os.path.join("../", data_args.data_dir),
+        task_config_dir=os.path.join("../", data_args.task_config_dir),
+        instruction_file=os.path.join("../", data_args.instruction_file),
         instruction_strategy=data_args.instruction_strategy,
         cache_dir=data_cache_dir,  # for debug, change dataset size, otherwise open it
         max_num_instances_per_task=data_args.max_num_instances_per_task,
