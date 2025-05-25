@@ -11,7 +11,7 @@ from transformers import AutoTokenizer
 logger = logging.getLogger(__name__)
 CURRENT_DIR = os.path.dirname(__file__)
 GPT2TOKENIZER = os.path.join(CURRENT_DIR, "../data/gpt2tokenizer")
-
+print(GPT2TOKENIZER)
 
 class GPTTokenizer:
     gpt_tokenizer = AutoTokenizer.from_pretrained(GPT2TOKENIZER, max_length=1e5, local_files_only=True)
