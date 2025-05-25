@@ -54,6 +54,8 @@ from assets import task_config, lora_state_dict_A, lora_state_dict_B
 from cl_trainer import Trainer, DenserEvalCallback, skip_instructions
 from compute_metrics import compute_metrics, compute_grouped_metrics
 from datasets.download import DownloadConfig
+from configs.CodeTask.create_codetask_config import create_codetask_config
+from CodeTask_Benchmark.parse_into_json import convert_to_codetask
 
 # off wandb
 os.environ['WANDB_DISABLED'] = "True"
@@ -326,6 +328,12 @@ def main():
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
+    create_codetask_config()
+    for split in ["train", "validation", "test"]:
+        try:
+            convert_to_codetask(split)
+        except Exception as e:
+            print(f"⚠️  Skipped {split}: {e}")
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # If we pass only one argument to the script and it's the path to a json file,

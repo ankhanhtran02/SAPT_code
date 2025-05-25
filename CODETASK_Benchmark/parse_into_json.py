@@ -61,10 +61,12 @@ def convert_to_codetask(split_name="train"):
 
         with open(os.path.join(save_dir, f"{JSON_FN[split_name]}.json"), "w", encoding="utf-8") as f:
             json.dump(output_data, f, ensure_ascii=False, indent=2)
+        print(f"✅ {split_name} data for {task} saved to {os.path.join(save_dir, f'{JSON_FN[split_name]}.json')}")
 
-# 🔁 Run for all splits
-for split in ["train", "validation", "test"]:
-    try:
-        convert_to_codetask(split)
-    except Exception as e:
-        print(f"⚠️  Skipped {split}: {e}")
+if __name__ == "__main__":
+    # 🔁 Run for all splits
+    for split in ["train", "validation", "test"]:
+        try:
+            convert_to_codetask(split)
+        except Exception as e:
+            print(f"⚠️  Skipped {split}: {e}")
