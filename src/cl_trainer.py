@@ -324,8 +324,7 @@ class Trainer(Seq2SeqTrainer):
             if args.fp16_full_eval:
                 model = model.to(dtype=torch.float16, device=args.device)
             elif args.bf16_full_eval:
-                pass
-                # model = model.to(dtype=torch.bfloat16, device=args.device)
+                model = model.to(dtype=torch.bfloat16, device=args.device)
 
         batch_size = dataloader.batch_size
 
