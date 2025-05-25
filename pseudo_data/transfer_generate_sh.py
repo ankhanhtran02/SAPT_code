@@ -47,45 +47,46 @@ config_template={
     ],
 }
 
-sh_str=rf'''#!/bin/bash
-#SBATCH -J cl                           
-#SBATCH -o cl-%j.out                       
-#SBATCH -p compute 
-#SBATCH -N 1                           
-#SBATCH -t 5:00:00   
-#SBATCH --mem 64G 
-#SBATCH --gres=gpu:nvidia_a100_80gb_pcie:1        
+sh_str=rf'''
+# #!/bin/bash
+# #SBATCH -J cl                           
+# #SBATCH -o cl-%j.out                       
+# #SBATCH -p compute 
+# #SBATCH -N 1                           
+# #SBATCH -t 5:00:00   
+# #SBATCH --mem 64G 
+# #SBATCH --gres=gpu:nvidia_a100_80gb_pcie:1        
 
 
-export CUDA_DEVICE_ORDER="PCI_BUS_ID"
+# export CUDA_DEVICE_ORDER="PCI_BUS_ID"
 
-port=$(shuf -i25000-30000 -n1)  
+# port=$(shuf -i25000-30000 -n1)  
 
 lr=0.001
 topk=20
 '''
 output_name=r'outputs_lr_0001_topk_${topk}'
 
-for idx in range(len(dataset_list)):
-    sh_str+=rf'''
+# for idx in range(len(dataset_list)):
+sh_str+=rf'''
 
 CUDA_VISIBLE_DEVICES=0 deepspeed --master_port $port src/run_uie_lora.py \
    --do_train \
    --do_predict \
    --predict_with_generate \
-   --model_name_or_path ~/workplace/A_pretrain_models/t5_large \
-   --data_dir CL_Benchmark \
-   --task_config_dir configs/Ours_CL_configs/lookback_{dataset_list[idx]} \
+   --model_name_or_path google-t5/t5-small \
+   --data_dir CodeTask_Benchmark \
+   --task_config_dir configs/CodeTask \
    --instruction_file configs/instruction_config.json \
    --instruction_strategy single \
-   --output_dir logs_and_outputs/Ours_CL/{output_name}/lookback_{dataset_list[idx]} \
+   --output_dir logs_and_outputs/CodeTask/{output_name}/CodeTrans \
    --per_device_train_batch_size 16 \
    --per_device_eval_batch_size 32 \
    --gradient_accumulation_steps 1 \
    --learning_rate $lr \
    --max_steps  5000 \
    --deepspeed configs/ds_configs/stage2.config \
-   --run_name Ours_CL_round1 \
+   --run_name CodeTaskCL \
    --max_source_length 5 \
    --max_target_length 512 \
    --generation_max_length 512 \
@@ -100,5 +101,5 @@ CUDA_VISIBLE_DEVICES=0 deepspeed --master_port $port src/run_uie_lora.py \
    --top_k $topk  \
 '''
     
-with open(f'./scripts/Ours_CL_lookback.sh', 'w') as f:
+with open(f'./scripts/CodeTask.sh', 'w') as f:
     f.write(sh_str)

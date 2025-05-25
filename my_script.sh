@@ -5,7 +5,7 @@ python3 src/run_t5.py \
   --model_name_or_path google-t5/t5-small \
   --data_dir CODETASK_Benchmark \
   --task_order CodeTrans,CodeSearchNet,BFP,CONCODE \
-  --gen_data_dir "generated_data/lora_gen_long_t5" \
+  --gen_data_dir "generated_data" \
   --task_config_dir configs/CodeTask/BFP \
   --output_dir "logs_and_outputs/your_job_name/outputs/5-bfp" \
   --per_device_train_batch_size 4 \
