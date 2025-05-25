@@ -2,7 +2,7 @@ import os
 import json
 
 TASK_LIST = ['CodeTrans', 'CodeSearchNet', 'BFP', 'CONCODE']
-BASE_DIR = "pseudo_data/configs/CodeTask"
+BASE_DIR = "configs/CodeTask"
 
 def create_config():
 
