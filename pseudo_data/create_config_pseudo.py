@@ -33,7 +33,7 @@ def create_config():
             ]
         }
 
-        with open(os.path.join(task_path, "test_tasks.json"), "w", encoding="utf-8") as f:
+        with open(os.path.join(task_path, "dev_tasks.json"), "w", encoding="utf-8") as f:
             json.dump(dev_entry, f, indent=2)
     print(f"Configuration files created in {BASE_DIR}")
     
