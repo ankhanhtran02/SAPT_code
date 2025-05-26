@@ -9,22 +9,22 @@
 # #SBATCH --gres=gpu:nvidia_a100_80gb_pcie:1        
 
 
-# export CUDA_DEVICE_ORDER="PCI_BUS_ID"
+export CUDA_DEVICE_ORDER="PCI_BUS_ID"
 
-# port=$(shuf -i25000-30000 -n1)  
+port=$(shuf -i25000-30000 -n1)  
 
 lr=0.001
 topk=20
 
 
 # CUDA_VISIBLE_DEVICES=0 deepspeed --master_port $port src/run_uie_lora.py \
-CUDA_VISIBLE_DEVICES=0 python  src/run_uie_lora.py \
+CUDA_VISIBLE_DEVICES=0,1 python  src/run_uie_lora.py \
    --do_train \
    --do_predict \
    --predict_with_generate \
    --model_name_or_path google-t5/t5-small \
    --data_dir CodeTask_Benchmark \
-   --task_config_dir configs/CodeTask \
+   --task_config_dir configs/CodeTask/CodeTrans \
    --instruction_file configs/instruction_config.json \
    --instruction_strategy single \
    --output_dir logs_and_outputs/CodeTask/outputs_lr_0001_topk_${topk}/CodeTrans \
@@ -33,7 +33,6 @@ CUDA_VISIBLE_DEVICES=0 python  src/run_uie_lora.py \
    --gradient_accumulation_steps 1 \
    --learning_rate $lr \
    --max_steps  5000 \
-   # --deepspeed configs/ds_configs/stage2.config \
    --run_name CodeTaskCL \
    --max_source_length 5 \
    --max_target_length 512 \
