@@ -350,7 +350,7 @@ class UIETrainer(Seq2SeqTrainer):
 
         # XXX: adapt synced_gpus for fairscale as well
         gen_kwargs = self._gen_kwargs
-        print(f"Print {gen_kwargs}")
+        print(f"Gen kwargs: {gen_kwargs}")
         gen_kwargs["synced_gpus"] = False
 
         if "attention_mask" in inputs:
@@ -370,6 +370,7 @@ class UIETrainer(Seq2SeqTrainer):
             input_ids=generation_inputs, 
             generation_config=generation_config
         )
+        print(f"Generated tokens: {generated_tokens.shape}")
 
         bs, source_len = inputs['input_ids'].shape
         # in case the batch is shorter than max length, the output should be padded
