@@ -59,7 +59,7 @@ os.environ['WANDB_DISABLED'] = "True"
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 logger = logging.getLogger(__name__)
 CURRENT_DIR = os.path.dirname(__file__)
-print(f"Current directory: {CURRENT_DIR}")
+print(f"Current directory: {os.getcwd()}")
 
 try:
     nltk.data.find("tokenizers/punkt")
