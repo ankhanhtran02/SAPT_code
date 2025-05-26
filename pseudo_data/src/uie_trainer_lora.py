@@ -63,6 +63,7 @@ class UIETrainer(Seq2SeqTrainer):
     def __init__(self, *args_list, **kwags_dict):
         super().__init__(*args_list, **kwags_dict)
         self.save_index=0
+        self.deepspeed = kwags_dict.get("deepspeed", None)
 
     def training_step(self, model: nn.Module, inputs: Dict[str, Union[torch.Tensor, Any]]) -> torch.Tensor:
         """
