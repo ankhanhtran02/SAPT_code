@@ -308,7 +308,7 @@ def main():
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
-    pseudo_data_dir = "../../"
+    pseudo_data_dir = "../"
     data_cache_dir = gen_cache_path(os.path.join(pseudo_data_dir, training_args.output_dir), data_args)
 
     # Get the UIE dataset
