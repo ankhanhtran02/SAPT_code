@@ -292,7 +292,7 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
     def _generate_examples(self, path=None, task_config=None, max_num_instances_per_task=None, subset=None):
         """Yields examples."""
         logger.info(f"Generating tasks from = {path}")
-
+        print(path, task_config, max_num_instances_per_task, subset, sep="\n")
         for task in task_config:
             if task == 'Ours_CL':
                 load_func = self.load_Ours_CL_dataset
