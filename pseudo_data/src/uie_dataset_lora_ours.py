@@ -107,7 +107,7 @@ class UIEConfig(datasets.BuilderConfig):
           ]
         }
         """
-        print("Parse instruction file:")
+        print("Parse instruction file: {instruction_file}".format(instruction_file=instruction_file))
         if not instruction_file:
             return None
         instructions = {"zero-shot": {}, "few-shot": {}}
@@ -142,6 +142,7 @@ class UIEConfig(datasets.BuilderConfig):
               ]
             }
         """
+        print("Parse task config dir: {task_config_dir}".format(task_config_dir=task_config_dir))
         if not task_config_dir:
             return None
 
@@ -197,6 +198,8 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
 
     def _split_generators(self, dl_manager):
         """Returns SplitGenerators."""
+        print(_split_generators.__name__)
+        print(dl_manager)
         if self.config.data_dir is None or self.config.task_configs is None:
             logger.error("Please provide right input: data_dir or task_config_dir!")
 
@@ -234,6 +237,8 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
 
 
     def _load_dataset(self, dataset_path):
+        print(_load_dataset.__name__)
+        print(dataset_path)
         with open(dataset_path, encoding="utf-8") as task_f:
             s = task_f.read()
             instances = json.loads(s)
@@ -242,6 +247,7 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
 
 
     def _get_instruction(self, task):
+        print(_get_instruction.__name__)
         assert self.config.instruction_strategy in INSTRUCTION_STRATEGIES
         if self.config.num_examples is not None and self.config.num_examples > 0:
             task_instructions = self.config.instructions['few-shot'][task]
@@ -265,7 +271,8 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
     
 
     def load_Ours_CL_dataset(self, dataset_path, labels_path, dataset_name, sampling_strategy, max_num_instances, subset):
-
+        print(load_Ours_CL_dataset.__name__)
+        print(dataset_path, labels_path, dataset_name, sampling_strategy, max_num_instances, subset, sep="\n")
         data = self._load_dataset(dataset_path)
 
         sample_template = {"Task": "CodeTask", "Dataset": dataset_name, "Samples": [], "subset": subset}
@@ -293,7 +300,8 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
     def _generate_examples(self, path=None, task_config=None, max_num_instances_per_task=None, subset=None):
         """Yields examples."""
         logger.info(f"Generating tasks from = {path}")
-        # print(path, task_config, max_num_instances_per_task, subset, sep="\n")
+        print(_generate_examples.__name__)
+        print(path, task_config, max_num_instances_per_task, subset, sep="\n")
         for task in task_config:
             if task == 'CodeTask':
                 load_func = self.load_Ours_CL_dataset
