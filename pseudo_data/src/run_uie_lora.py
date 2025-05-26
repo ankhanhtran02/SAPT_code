@@ -545,9 +545,12 @@ def main():
     if training_args.do_train:
         checkpoint = None
         if training_args.resume_from_checkpoint is not None:
+            print(f"Resuming from checkpoint: {training_args.resume_from_checkpoint}")
             checkpoint = training_args.resume_from_checkpoint
         elif last_checkpoint is not None:
+            print(f"Resuming from last checkpoint: {last_checkpoint}")
             checkpoint = last_checkpoint
+        print(f"Checkpoint: {checkpoint}")
         train_result = trainer.train(resume_from_checkpoint=checkpoint)
 
         peft_model_id = training_args.output_dir + "/adapter"
