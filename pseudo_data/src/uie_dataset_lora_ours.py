@@ -127,6 +127,7 @@ class UIEConfig(datasets.BuilderConfig):
                 else:
                     raise ValueError("Invalid instruction type {}, please check your instruction file {}"
                                      .format(instruct_type, instruction_file))
+        print("Parsed instructions: {}".format(instructions))
         return instructions
 
 
@@ -155,7 +156,7 @@ class UIEConfig(datasets.BuilderConfig):
 
             with open(task_config_file, 'r+') as f:
                 task_configs[task] = json.loads(f.read())
-
+        print("Parsed task configs: {}".format(task_configs))
         return task_configs
 
 
