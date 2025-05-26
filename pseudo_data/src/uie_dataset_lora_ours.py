@@ -107,6 +107,7 @@ class UIEConfig(datasets.BuilderConfig):
           ]
         }
         """
+        print("Parse instruction file:")
         if not instruction_file:
             return None
         instructions = {"zero-shot": {}, "few-shot": {}}
@@ -267,7 +268,7 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
 
         data = self._load_dataset(dataset_path)
 
-        sample_template = {"Task": "CL", "Dataset": dataset_name, "Samples": [], "subset": subset}
+        sample_template = {"Task": "CodeTask", "Dataset": dataset_name, "Samples": [], "subset": subset}
 
         for idx, instance in enumerate(data['Instances']):
             example = sample_template.copy()
@@ -292,9 +293,9 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
     def _generate_examples(self, path=None, task_config=None, max_num_instances_per_task=None, subset=None):
         """Yields examples."""
         logger.info(f"Generating tasks from = {path}")
-        print(path, task_config, max_num_instances_per_task, subset, sep="\n")
+        # print(path, task_config, max_num_instances_per_task, subset, sep="\n")
         for task in task_config:
-            if task == 'Ours_CL':
+            if task == 'CodeTask':
                 load_func = self.load_Ours_CL_dataset
             else:
                 raise ValueError("Unsupport {} task, plz check {} task config!".format(task, subset))
