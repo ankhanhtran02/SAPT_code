@@ -336,7 +336,10 @@ class UIETrainer(Seq2SeqTrainer):
             Tuple[Optional[float], Optional[torch.Tensor], Optional[torch.Tensor]]: A tuple with the loss, logits and
             labels (each being optional).
         """
-
+        print("prediction_step")
+        print(inputs.keys())
+        print(prediction_loss_only)
+        print(ignore_keys)
         if not self.args.predict_with_generate or prediction_loss_only:
             return super().prediction_step(
                 model, inputs, prediction_loss_only=prediction_loss_only, ignore_keys=ignore_keys
@@ -347,6 +350,7 @@ class UIETrainer(Seq2SeqTrainer):
 
         # XXX: adapt synced_gpus for fairscale as well
         gen_kwargs = self._gen_kwargs
+        print(f"Print {gen_kwargs}")
         gen_kwargs["synced_gpus"] = False
 
         if "attention_mask" in inputs:

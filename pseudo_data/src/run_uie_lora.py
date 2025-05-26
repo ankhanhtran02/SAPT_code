@@ -500,6 +500,7 @@ def main():
 
     # Metric
     def compute_rouge_metrics(dataset, preds, save_prefix=None):
+        print(f"-----Evaluating {len(dataset)} examples-----")
         decoded_preds = skip_instructions(model, preds, tokenizer)
         references = [e["Instance"]["label"] for e in dataset]
         result = compute_metrics(predictions=decoded_preds, references=references)
@@ -516,6 +517,7 @@ def main():
         if save_prefix is not None:
             with open(os.path.join(training_args.output_dir, f"{save_prefix}_eval_predictions.jsonl"), "w") as fout:
                 for example, pred in zip(dataset, decoded_preds):
+                    print(f"Task: {example['Task']}, Dataset: {example['Dataset']}, Instance: {example['Instance']}, Prediction: {pred}")
                     fout.write(json.dumps({
                         "Task": example["Task"],
                         "Dataset": example["Dataset"],
