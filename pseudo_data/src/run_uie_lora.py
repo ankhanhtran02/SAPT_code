@@ -551,7 +551,9 @@ def main():
             print(f"Resuming from last checkpoint: {last_checkpoint}")
             checkpoint = last_checkpoint
         print(f"Checkpoint: {checkpoint}")
-        train_result = trainer.train(resume_from_checkpoint=checkpoint)
+        train_result = trainer.train(
+            # resume_from_checkpoint=checkpoint
+            )
 
         peft_model_id = training_args.output_dir + "/adapter"
         trainer.model.save_pretrained(peft_model_id)  
