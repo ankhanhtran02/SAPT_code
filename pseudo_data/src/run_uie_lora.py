@@ -58,7 +58,7 @@ from model.llama import LlamaForCausalLM_with_lossmask
 os.environ['WANDB_DISABLED'] = "True"
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 logger = logging.getLogger(__name__)
-CURRENT_DIR = os.path.dirname(__file__)
+CURRENT_DIR = os.getcwd()
 print(f"Current directory: {os.getcwd()}")
 
 try:
@@ -308,15 +308,15 @@ def main():
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
-    pseudo_data_dir = "../"
-    data_cache_dir = gen_cache_path(os.path.join(pseudo_data_dir, training_args.output_dir), data_args)
+    src_dir = os.path.join(CURRENT_DIR, "src")
+    data_cache_dir = gen_cache_path(os.path.join(CURRENT_DIR, training_args.output_dir), data_args)
 
     # Get the UIE dataset
     raw_datasets = load_dataset(
-        os.path.join(CURRENT_DIR, "uie_dataset_lora_ours.py"),
-        data_dir=os.path.join(pseudo_data_dir, data_args.data_dir),
-        task_config_dir=os.path.join(pseudo_data_dir, data_args.task_config_dir),
-        instruction_file=os.path.join(pseudo_data_dir, data_args.instruction_file),
+        os.path.join(src_dir, "uie_dataset_lora_ours.py"),
+        data_dir=os.path.join(CURRENT_DIR, data_args.data_dir),
+        task_config_dir=os.path.join(CURRENT_DIR, data_args.task_config_dir),
+        instruction_file=os.path.join(CURRENT_DIR, data_args.instruction_file),
         instruction_strategy=data_args.instruction_strategy,
         cache_dir=data_cache_dir,  # for debug, change dataset size, otherwise open it
         max_num_instances_per_task=data_args.max_num_instances_per_task,
