@@ -402,7 +402,7 @@ class UIETrainer(Seq2SeqTrainer):
 
     
     def save_model(self, output_dir: Optional[str] = None, _internal_call: bool = False):
-        # super().save_model(output_dir, _internal_call)
+        super().save_model(output_dir, _internal_call)
         while os.path.exists(f'{self.args.output_dir}/ckpt_{self.save_index}'):
             self.save_index+=1
         self.model.save_pretrained(f'{self.args.output_dir}/ckpt_{self.save_index}')  
