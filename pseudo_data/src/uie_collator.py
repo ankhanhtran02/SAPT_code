@@ -54,8 +54,6 @@ class DataCollatorForUIE:
         # "instructions \n options \n {0} \n Answer: "
         instruction = instance['Instance']["instruction"]
         content = instance['Instance']['sentence']
-        print(f"Instruction: {instruction}")
-        print(f"Content: {content}")
 
         # add task/ds prefix
         prefix = ''
@@ -77,8 +75,10 @@ class DataCollatorForUIE:
             content = samples + content
         # TODO, fix bug
         try:
+            print("yes")
             instruction = instruction.format(content)
         finally:
+            print("no")
             return instruction
 
 
