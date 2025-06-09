@@ -279,10 +279,13 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
 
         sample_template = {"Task": "CodeTask", "Dataset": dataset_name, "Samples": [], "subset": subset}
 
+        definition = data["Definition"][0]
+
         for idx, instance in enumerate(data['Instances']):
             example = sample_template.copy()
 
-            instruction = "{0}"
+            # instruction = "{0}"
+            instruction = definition
             if isinstance(instance["output"], list):
                 label=instance["output"][random.randint(0, len(instance["output"])-1)]
             else:
