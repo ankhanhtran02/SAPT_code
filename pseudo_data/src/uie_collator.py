@@ -52,7 +52,7 @@ class DataCollatorForUIE:
 
     def get_instruction(self, instance):
         # "instructions \n options \n {0} \n Answer: "
-        instruction = instance['Instance']["instruction"]
+        instruction = instance['Instance']["instruction"] + '{0}'
         content = instance['Instance']['sentence']
 
         # add task/ds prefix
