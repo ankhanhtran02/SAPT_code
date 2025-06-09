@@ -75,10 +75,9 @@ class DataCollatorForUIE:
             content = samples + content
         # TODO, fix bug
         try:
-            print("yes")
             instruction = instruction.format(content)
+            print(f"Instruction: {instruction}")
         finally:
-            print("no")
             return instruction
 
 
