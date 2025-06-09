@@ -54,6 +54,8 @@ class DataCollatorForUIE:
         # "instructions \n options \n {0} \n Answer: "
         instruction = instance['Instance']["instruction"]
         content = instance['Instance']['sentence']
+        print(f"Instruction: {instruction}")
+        print(f"Content: {content}")
 
         # add task/ds prefix
         prefix = ''
