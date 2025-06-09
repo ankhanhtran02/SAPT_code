@@ -167,7 +167,7 @@ class DataTrainingArguments:
     )
     # for decoder model, it means max_new_tokens
     max_target_length: Optional[int] = field(
-        default=50,
+        default=256,
         metadata={
             "help": "The maximum total sequence length for target text after tokenization. Sequences longer "
                     "than this will be truncated, sequences shorter will be padded."
@@ -484,7 +484,7 @@ def main():
     data_collator = DataCollatorForUIE(
         tokenizer,
         model=model,
-        padding="longest",
+        padding="max_length",
         max_source_length=data_args.max_source_length,
         max_target_length=data_args.max_target_length,
         label_pad_token_id=label_pad_token_id,
