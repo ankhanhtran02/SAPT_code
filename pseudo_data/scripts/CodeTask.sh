@@ -32,7 +32,7 @@ CUDA_VISIBLE_DEVICES=0,1 python  src/run_uie_lora.py \
    --per_device_eval_batch_size 32 \
    --gradient_accumulation_steps 1 \
    --learning_rate $lr \
-   --num_train_epochs 5 \
+   --num_train_epochs 1 \
    --run_name CodeTaskCL \
    --max_source_length 5 \
    --max_target_length 512 \
