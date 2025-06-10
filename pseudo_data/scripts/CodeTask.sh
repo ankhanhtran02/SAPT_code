@@ -48,6 +48,6 @@ CUDA_VISIBLE_DEVICES=0,1 python  src/run_uie_lora.py \
    --top_k $topk  \
    --num_beams 4 \
    --lora_dim 48 \
-   --lora_dropout 0.05 \\
+   --lora_dropout 0.05 \
    # --max_steps  5000 \
 
