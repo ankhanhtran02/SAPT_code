@@ -121,7 +121,7 @@ class ModelArguments:
             "help": "Intrinsic dimension of the latent space."
         },
     )
-    lora_dropout: Optional[int] = field(
+    lora_dropout: float = field(
         default=0.1,
         metadata={
             "help": ""
