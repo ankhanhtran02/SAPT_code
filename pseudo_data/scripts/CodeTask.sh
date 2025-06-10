@@ -45,6 +45,9 @@ CUDA_VISIBLE_DEVICES=0,1 python  src/run_uie_lora.py \
    --warmup_steps 0 \
    --logging_strategy epoch \
    --save_strategy epoch \
-   --top_k $topk  \
+   --top_k $topk  \\
+   --num_beams 4 \\
+   --lora_dim 48 \\
+   --lora_dropout 0.05 \\
    # --max_steps  5000 \
 

@@ -38,7 +38,8 @@ from transformers import (
     AutoConfig,
     AutoModel,
     AutoModelForSeq2SeqLM,
-    AutoModelForCausalLM,  # add
+    AutoModelForCausalLM, 
+    T5ForConditionalGeneration,
     AutoTokenizer,
     HfArgumentParser,
     Seq2SeqTrainingArguments,
@@ -118,6 +119,12 @@ class ModelArguments:
         default=8,
         metadata={
             "help": "Intrinsic dimension of the latent space."
+        },
+    )
+    lora_dropout: Optional[int] = field(
+        default=0.1,
+        metadata={
+            "help": ""
         },
     )
     num_virtual_tokens: Optional[int] = field(
@@ -381,12 +388,15 @@ def main():
         model_class = LlamaForCausalLM_with_lossmask
         tokenizer.padding_side = 'left'
     else: 
-        model_class = AutoModelForSeq2SeqLM
+        print("Model class: T5 for conditional generation")
+        model_class = T5ForConditionalGeneration
 
     if 'adapter' in model_args.model_name_or_path: # add lora-adapter to the original model
+        print("Original model with adapter")
         model = model_class.from_pretrained(config.base_model_name_or_path)
         model = PeftModel.from_pretrained(model, model_args.model_name_or_path)
     elif 'llama' in model_args.model_name_or_path.lower():
+        print("llama")
         model = model_class.from_pretrained(
             model_args.model_name_or_path,
             from_tf=bool(".ckpt" in model_args.model_name_or_path),
@@ -396,10 +406,11 @@ def main():
             use_auth_token=True if model_args.use_auth_token else None
         )
         peft_config = LoraConfig(
-            task_type=TaskType.CAUSAL_LM, inference_mode=False, r=model_args.lora_dim, lora_alpha=32, lora_dropout=0.1
+            task_type=TaskType.CAUSAL_LM, inference_mode=False, r=model_args.lora_dim, lora_alpha=model_args.lora_dim*2, lora_dropout=model_args.lora_dropout
         )
         model = get_peft_model(model, peft_config)
     else:
+        print(f"Using codet5 small with LoRA: r={model_args.lora_dim}, alpha={model_args.lora_dim*2}, dropout={model_args.lora_dropout}")
         model = model_class.from_pretrained(
             model_args.model_name_or_path,
             from_tf=bool(".ckpt" in model_args.model_name_or_path),
@@ -409,7 +420,7 @@ def main():
             use_auth_token=True if model_args.use_auth_token else None,
         )
         peft_config = LoraConfig(
-            task_type=TaskType.SEQ_2_SEQ_LM, inference_mode=False, r=model_args.lora_dim, lora_alpha=32, lora_dropout=0.1
+            task_type=TaskType.SEQ_2_SEQ_LM, inference_mode=False, r=model_args.lora_dim, lora_alpha=model_args.lora_dim*2, lora_dropout=model_args.lora_dropout
         )
         model = get_peft_model(model, peft_config)
     for n,p in model.named_parameters():
@@ -481,6 +492,7 @@ def main():
 
     # Data collator
     label_pad_token_id = -100 if data_args.ignore_pad_token_for_loss else tokenizer.pad_token_id
+    print(f"Label pad token id: {label_pad_token_id}")
     data_collator = DataCollatorForUIE(
         tokenizer,
         model=model,
@@ -603,7 +615,7 @@ def main():
 
         if data_args.max_predict_samples is not None:
             predict_dataset = predict_dataset.select(range(data_args.max_predict_samples))
-
+        print(f"tokenizer.pad_token_id: {tokenizer.pad_token_id}")
         predict_results = trainer.predict(
             predict_dataset,
             metric_key_prefix="predict",
@@ -614,7 +626,7 @@ def main():
             repetition_penalty=repetition_penalty,
             # length_penalty=1.0,
             early_stopping=True,
-            do_sample=True,
+            do_sample=False,
             top_k=training_args.top_k
         )
         metrics = predict_results.metrics
