@@ -13,7 +13,7 @@ export CUDA_DEVICE_ORDER="PCI_BUS_ID"
 
 port=$(shuf -i25000-30000 -n1)  
 
-lr=0.001
+lr=0.0001
 topk=20
 
 
@@ -27,12 +27,12 @@ CUDA_VISIBLE_DEVICES=0,1 python  src/run_uie_lora.py \
    --task_config_dir configs/CodeTask/CodeTrans \
    --instruction_file configs/instruction_config.json \
    --instruction_strategy single \
-   --output_dir logs_and_outputs/CodeTask/outputs_lr_0001_topk_${topk}/CodeTrans \
+   --output_dir logs_and_outputs/CodeTask/outputs_lr_00001_topk_${topk}/CodeTrans \
    --per_device_train_batch_size 16 \
    --per_device_eval_batch_size 32 \
    --gradient_accumulation_steps 1 \
    --learning_rate $lr \
-   --num_train_epochs 1 \
+   --num_train_epochs 5 \
    --run_name CodeTaskCL \
    --max_source_length 5 \
    --max_target_length 512 \
