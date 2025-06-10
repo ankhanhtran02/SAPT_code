@@ -174,7 +174,7 @@ class DataTrainingArguments:
         },
     )
     repetition_penalty: Optional[float] = field(
-        default=1.0,
+        default=1.2,
         metadata={
             "help": "Penalty for repeat tokens in decode stage."
         },
@@ -591,8 +591,10 @@ def main():
         if training_args.generation_max_length is not None
         else data_args.max_target_length
     )
+    print(f"Max new tokens: {max_new_tokens}")
 
     num_beams = data_args.num_beams if data_args.num_beams is not None else training_args.generation_num_beams
+    print(f"Generation_num_beams: {num_beams}")
     repetition_penalty = data_args.repetition_penalty
 
     if training_args.do_predict:
@@ -606,11 +608,11 @@ def main():
             predict_dataset,
             metric_key_prefix="predict",
             pad_token_id=tokenizer.pad_token_id,
-            num_beams=1,
+            num_beams=num_beams,
             max_new_tokens=max_new_tokens,
             use_cache=True,
-            repetition_penalty=2.5,
-            length_penalty=1.0,
+            repetition_penalty=repetition_penalty,
+            # length_penalty=1.0,
             early_stopping=True,
             do_sample=True,
             top_k=training_args.top_k
