@@ -76,7 +76,7 @@ class DataCollatorForUIE:
         # TODO, fix bug
         try:
             instruction = instruction.format(content)
-            print(f"Instruction: {instruction}")
+            # print(f"Instruction: {instruction}")
         finally:
             return instruction
 
